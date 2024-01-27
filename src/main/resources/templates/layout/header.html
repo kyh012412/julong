@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header class="header">
+    <div class="header-bar">
+        <div class="left-group">
+            <button type="button" class="btn btn-m-toggle" data-toggle="offcanvas" data-target="#GNB"><span class="sr-only">모바일 메뉴</span></button>
+            <a href="/" class="logo">
+                <a href="/collecting/dashboard"><img src="/images/logo.png" class="p-logo" alt="회사명" /></a>
+            </a>
+        </div>
+
+
+        <div class="right-group">
+            <div class="dropdown member" id="dropMember">
+                <th:block sec:authorize="isAuthenticated()">
+                    <a class="btn btn-member dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="name"
+                            th:if="${session.codeLang} == 'EN' and ${not #strings.isEmpty(#authentication.getPrincipal().getMemberEngName())}"><em
+                                sec:authentication="principal.memberEngName">xxx</em></span>
+                        <span class="name" th:if="${session.codeLang} == 'KO' or  ${#strings.isEmpty(#authentication.getPrincipal().getMemberEngName())}"><em
+                                sec:authentication="principal.memberName">xxx</em> 님</span>
+                        <div class="photo">
+                            <img th:if="${not #strings.isEmpty(#authentication.principal.photoFile)}"
+                                th:src="${'/upload/profile/' + #authentication.principal.photoFile}" alt="" />
+                        </div>
+                    </a>
+
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+    <!-- 참고 url start -->
+    <!-- 
+    나의분석
+    <a href="/index" class="dropdown-item">나의 대시보드</a>
+    <a href="/myanalysis/myanalysis" class="dropdown-item">나의 분석정보</a>
+    <a href="/myanalysis/mykeyword" class="dropdown-item">나의 키워드</a>
+    <a href="/myanalysis/mylead" class="dropdown-item">나의 리드</a>
+    <a href="/myanalysis/myclipping" class="dropdown-item">나의 클리핑</a>
+
+    수집 자료
+    <a href="/collecting/dashboard" class="dropdown-item">대시보드</a>
+    <a href="/collecting/results?queryType=news" class="dropdown-item">뉴스</a>
+    <a href="/collecting/results?queryType=customer" class="dropdown-item">고객사</a>
+    <a href="/collecting/results?queryType=competitor" class="dropdown-item">경쟁사</a>
+    <a href="/collecting/results?queryType=voc" class="dropdown-item">VOC</a>
+    <a href="/collecting/results?queryType=bidding" class="dropdown-item">입찰정보</a>
+
+    공유 자료
+    <a href="/sharing/toUser" class="dropdown-item">나에게 공유</a>
+    <a href="/sharing/fromUser" class="dropdown-item">내가 공유</a>
+    <a href="/sharing/dataSharedList" class="dropdown-item">공유 자료 목록</a>
+    <a href="/sharing/dataShared" class="dropdown-item">공유 자료 등록</a>
+
+    수집 요청
+    <a href="/crawling/list" class="dropdown-item">수집 요청 목록</a>
+    <a href="/crawling/request" class="dropdown-item">수집 요청</a>
+
+    공간 정보
+    <a href="/map_list" class="dropdown-item">공간 정보 조회</a>
+
+    VOC 정보
+    <a href="/voc/dashboard" class="dropdown-item">VOC 대시보드</a>
+    <a href="/voc/keyword" class="dropdown-item">VOC 키워드</a>
+    <a href="/voc/analysis" class="dropdown-item">VOC 분석</a>
+
+    수집 관리
+        수집 요청 관리
+        <a href="/crawlingcontrol/request/status" class="dropdown-item">수집 요청 현황</a>
+        <a href="/crawlingcontrol/request/list" class="dropdown-item">수집 요청 목록</a>
+    <a href="/crawlingcontrol/schedule/list" class="dropdown-item">전체 스케줄 목록</a>
+        수집 자료 모니터링
+        <a href="/crawlingcontrol/monitoring/history" class="dropdown-item">수집 요청 목록</a>
+        <a href="/crawlingcontrol/monitoring/failure" class="dropdown-item">실패 수집 목록</a>
+        <a href="/crawlingcontrol/monitoring/etl" class="dropdown-item">적재 프로세스 목록</a>
+        <a href="/crawlingcontrol/monitoring/invalid/xpath" class="dropdown-item">XPATH 이상 목록</a>
+        <a href="/crawlingcontrol/monitoring/crawldata" class="dropdown-item">수집 자료 조회</a>
+        통계 관리
+        <a href="/crawlingcontrol/statistics/daily" class="dropdown-item">일자별 수집 통계</a>
+        <a href="/crawlingcontrol/statistics/type" class="dropdown-item">유형별 수집 통계</a>
+        <a href="/crawlingcontrol/statistics/error" class="dropdown-item">수집간 에러 통계</a>
+
+    시스템 관리
+    <a href="/system/server" class="dropdown-item">서버 관리</a>
+    <a href="/system/commoncode" class="dropdown-item">공통코드 관리</a>
+    <a href="/system/repcompany" class="dropdown-item">수집그룹명 관리</a>
+    <a href="/system/user" class="dropdown-item">유저관리</a>
+    <a href="/system/crawlingdel" class="dropdown-item">??menu2.crawlingDel_ko??</a>
+
+    Doc Compare
+    <a href="/compare/pdf" class="dropdown-item">PDF Compare</a>
+    <a href="/compare/word" class="dropdown-item">WORD Compare</a>
+
+    주요 가격 정보
+    <a href="/price/raw" class="dropdown-item">원자재</a>
+    <a href="/price/freight" class="dropdown-item">해외 운임 지수</a>
+    <a href="/price/exchange" class="dropdown-item">환율</a> -->
+    <!-- 참고 url end -->
+
+   <!-- <div class="navbar offcanvas-collapse" role="navigation" id="GNB">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown active">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="dropdown1" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">수집자료</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown1">
+                    <li class="dropdown-item"><a href="/collecting/dashboard">대시보드</a></li>
+                    <li class="dropdown-item"><a href="/collecting/results?queryType=news">뉴스</a></li>
+                    <li class="dropdown-item"><a href="/collecting/results?queryType=customer">고객사</a></li>
+                    <li class="dropdown-item"><a href="/collecting/results?queryType=competitor">경쟁사</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="dropdown2" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">수집요청</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown2">
+                    <li class="dropdown-item"><a href="/crawling/list">수집요청 목록</a></li>
+                    <li class="dropdown-item"><a href="/crawling/request">수집요청</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="dropdown3" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">수집관리</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown3">
+                    <li class="dropdown-item dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" id="dropdown3-1" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">수집요청관리</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown3-1">
+                            <li class="dropdown-item"><a href="/crawlingcontrol/request/status">수집요청 현황</a></li>
+                            <li class="dropdown-item"><a href="/crawlingcontrol/request/list">수집요청 목록</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-item"><a href="/crawlingcontrol/schedule/list">전체 스케쥴 목록</a></li>
+                    <li class="dropdown-item dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" id="dropdown3-2" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">수집자료 모니터링</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown3-2">
+                            <li class="dropdown-item"><a href="/crawlingcontrol/monitoring/history">수집 요청 목록</a></li>
+                            <li class="dropdown-item"><a href="/crawlingcontrol/monitoring/failure">실패 수집 목록</a></li>
+                            <li class="dropdown-item"><a href="/crawlingcontrol/monitoring/etl">적재 프로세스 목록</a></li>
+                            <li class="dropdown-item"><a href="/crawlingcontrol/monitoring/invalid/xpath">XPATH 이상 목록</a></li>
+                            <li class="dropdown-item"><a href="/crawlingcontrol/monitoring/crawldata">수집 자료 조회</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="dropdown4" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">통계</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown4">
+                    <li class="dropdown-item"><a href="javascript:void(0);">판가분석</a></li>
+                    <li class="dropdown-item"><a href="javascript:void(0);">원가분석</a></li>
+                    <li class="dropdown-item"><a href="javascript:void(0);">브랜드분석</a></li>
+                    <li class="dropdown-item"><a href="/price/exchange">환율정보</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="dropdown5" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">시스템관리</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown5">
+                    <li class="dropdown-item"><a href="/system/server">서버관리</a></li>
+                    <li class="dropdown-item"><a href="/system/commoncode">공통코드관리</a></li>
+                    <li class="dropdown-item"><a href="/system/program">프로그램관리</a></li>
+                    <li class="dropdown-item"><a href="/system/repcompany">수집그룹명관리</a></li>
+                    <li class="dropdown-item"><a href="/system/roletype">Role Type별 권한</a></li>
+                    <li class="dropdown-item"><a href="/system/userregi">사용자 등록</a></li>
+                    <li class="dropdown-item"><a href="/system/userauth">사용자별 조회 권한</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>-->
+    <div class="navbar offcanvas-collapse" role="navigation" id="GNB">
+    <ul class="navbar-nav">
+
+  <!--      <th:block th:each="menu_a: ${session.menuMap3.get('menu_3')}">
+            <th:block th:if="${menu_a.singlemenuyn} == true">
+                <li class="nav-item">
+                    <a th:text="${menu_a.programname}" th:href='|javascript:gfn_menuMoveT("${menu_a.programurl}");|' class="nav-link"></a>
+                </li>
+            </th:block>
+        </th:block>-->
+
+       <!-- <th:block th:if="${#strings.equals('SUPER_ADM', #authentication.principal.codeMemberType)}">-->
+            <th:block th:each="menu_a: ${session.menuListUser}">
+                <th:block th:if="${menu_a.singlemenuyn} == true">
+                    <li class="nav-item"><a th:text="${menu_a.name}" th:href='${menu_a.url}' class="nav-link"></a></li>
+                </th:block>
+                <th:block th:if="${menu_a.singlemenuyn} == false and ${!menu_a.mMenuList.empty}">
+                    <li class="nav-item dropdown ">
+                        <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${menu_a.name}"></a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown1">
+                            <th:block th:each="menu_b: ${menu_a.mMenuList}">
+                                <th:block th:if="${!menu_b.subMenuList.empty}">
+                                    <li class="dropdown-item dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" th:text="${menu_b.name}" aria-haspopup="true" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                            <th:block th:each="menu_c: ${menu_b.subMenuList}">
+                                                <li class="dropdown-item"> <a  th:text="${menu_c.name}" th:href='${menu_c.url}'></a> </li>
+                                            </th:block>
+                                        </ul>
+                                    </li>
+                                </th:block>
+                                <th:block th:if="${menu_b.subMenuList.empty}">
+                                    <li class="dropdown-item"> <a  th:text="${menu_b.name}" th:href='${menu_b.url}'></a> </li>
+                                </th:block>
+                            </th:block >
+                        </ul>
+                    </th:block>
+                </li>
+            </th:block>
+        <!--</th:block>-->
+
+    </ul>
+    </div>
+    <div class="dimmed"></div>
+
+</header>
+
+</html>

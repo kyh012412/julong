@@ -1,0 +1,72 @@
+spring:
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+  messages:
+    basename: messages/message
+    encoding: UTF-8
+  datasource:
+    hikari:
+      connectionTimeout: 30000
+      maximumPoolSize: 30
+      maxLifetime: 1800000
+      poolName: HikariCP
+      minimum-idle: 3
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+  thymeleaf:
+    prefix: classpath:templates/
+    encoding: UTF-8
+    suffix: .html
+    mode: HTML
+    cache: false
+
+
+server:
+  servlet:
+    session.timeout: 14400s
+    session.cookie.max_age: 14400s
+    encoding.charset: UTF-8
+    encoding.enabled: true
+    encoding.force: true
+  tomcat:
+    basedir: .                              # access log를 저장할 base directory 지정
+    accesslog.enabled: true                         # access log 저장 여부 (default: false)
+    accesslog.directory: logs                       # access log를 저장할 상세 directory (base directory에 기반한) (default: logs)
+    accesslog.pattern: '%h %l %u %t "%r" %s %b %D'  # access log 출력 패턴
+    accesslog.prefix: access                        # access log 파일이름 prefix
+    accesslog.suffix: .log                          # access log 파일이름 suffix (확장자 포함)
+    accesslog.rotate: true                          # access log rotation 여부
+    accesslog.rename-on-rotate: true                # rotation 시, 새로운 이름 지정 여부 (rotate 될 때의 날짜명이 로그 파일이름에 찍힘)
+  server-header: Xtrm-Sales
+
+logging:
+  level:
+    root: error
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  file:
+    name: ./logs/xtrm-voc.log
+  logback:
+    rollingpolicy.max-file-size: 100MB
+    rollingpolicy.max-history: 30
+
+#file.upload.path: ./upload
+file.upload.path: c:\\dev\\file

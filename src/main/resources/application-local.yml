@@ -1,0 +1,54 @@
+spring:
+  output:
+    ansi.enabled: detect
+  datasource:
+    master:
+      jdbc-url: jdbc:postgresql://20.196.201.69:15432/testdb?currentSchema=spring
+      username: testuser
+      password: testuser
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties.hibernate.format_sql: true
+    properties.hibernate.use_sql_comments: true
+    properties.hibernate.default_batch_fetch_size: 100
+    # properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  batch:
+    job.enabled: false
+    jdbc.initialize-schema: always
+
+server:
+  port: 18080
+  cors.origins:
+
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.elasticsearch.client: debug
+  file:
+    name: ./logs/xtrm-voc-local.log
+
+
+file:
+  upload:
+    path:
+      businessCard: /opt/xtrm-sales/data/image/business_card/
+      profile: /opt/xtrm-sales/data/image/profile/
+      crawling: /opt/xtrm-sales/data/crawling/
+      pdf: /opt/xtrm-sales/pdfCompare/pdf_files/
+      sharedata: data/sharedata/
+      excelfile: data/excel
+  resource:
+    path: # <img> file read path
+      businessCard: /upload/business_card/**
+      profile: /upload/profile/**
+      crawling: /crawling/**
+      sharedata: data/sharedata/
+      sharedata_1: upload/sharedata/
+    location: # file read url
+      businessCard: file:///D:/xtrm-sales/xtrm/data/image/business_card/
+      profile: file:///D:/xtrm-sales/xtrm/data/image/profile/
+      crawling: file:///D:/xtrm-sales/xtrm/data/crawling/
+      sharedata: data/sharedata/

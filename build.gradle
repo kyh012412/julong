@@ -1,0 +1,102 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.itca.finalpjt'
+version = '1.0.0'
+sourceCompatibility = '11'
+archivesBaseName = 'xtrm-voc'
+
+ext['log4j2.version'] = '2.17.1'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.clojars.org'
+        name 'Clojars'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: './src/main/libs', include: '**/*.jar')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'clojure-mail:clojure-mail:0.1.6'
+    runtimeOnly 'org.postgresql:postgresql'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'com.opencsv:opencsv:5.3'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-jpa'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+	annotationProcessor 'javax.persistence:javax.persistence-api'
+
+    implementation 'org.hibernate:hibernate-spatial:5.5.0.Final'
+
+    // implementation 'org.apache.poi:poi:3.17'
+    // implementation 'org.apache.poi:poi-ooxml:3.17'
+    implementation 'org.apache.poi:poi:3.9'
+    implementation 'org.apache.poi:poi-ooxml:3.9'
+
+    // https://mvnrepository.com/artifact/org.qlrm/qlrm
+    implementation 'org.qlrm:qlrm:3.0.4'
+    // 이메일
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.0.5'
+    implementation 'org.modelmapper:modelmapper:3.0.0'
+
+
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:9.2.1.jre11'
+
+
+    //multipartresolver 파일 업로드
+    implementation 'commons-io:commons-io:2.11.0'    /* Apache commons-io */
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4' /* Apache Commons FileUpload */
+    implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
+
+    // Json
+    implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
+}
+
+// QueryDSL
+/*
+sourceSets {
+    main {
+        java {
+            srcDirs = ["$projectDir/src/main/java", "$buildDir/generated"]
+        }
+    }
+}
+*/
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

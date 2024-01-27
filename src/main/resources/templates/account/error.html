@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>회사명</title>
+
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/fonts.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="wrap">
+    <section class="section error no-header">
+        <div class="msg">
+            <h1>회원 오류</h1>
+            <p th:utext="${error}">
+				사용자가 60일 동안 접속하지 않아 Xtrm-Sales System 접속 계정이 잠겼습니다.
+				<br>
+				해제하시려면 통합계정관리(IAM)에서 해제 신청 바랍니다.
+			</p>
+			<a class="btn btn-primary" href="/member/signup" th:text="#{member.signup}">Xtrm-Sales 권한 신청</a>
+        </div>
+    </section>
+
+    <footer style="display: flex">
+        <a href="#" class="logo"><img src="/images/logo-footer.png" alt="회사명"/></a>
+        <div class="copyright">
+            <p>회사명</p>
+            <p>ALL RIGHTS RESERVED.</p>
+        </div>
+        <div class="btn-footer-group">
+            <a href="#">개인정보처리방침</a>
+        </div>
+    </footer>
+</div>
+
+<script defer type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
+<script defer type="text/javascript" src="/lib/jquery-ui-1.11.4.min.js"></script>
+<script defer type="text/javascript" src="/lib/bootstrap.bundle.min.js"></script>
+</body>
+</html>

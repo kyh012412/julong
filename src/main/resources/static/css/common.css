@@ -1,0 +1,131 @@
+.btn-primary-send {
+	border: #250088 1px solid !important;
+	color: #FFF !important;
+	padding: 9px 10px;
+	background-color: #250088 !important;
+	font-weight: 500;
+}
+
+.btn-primary-gpt {
+	border: #250088 1px solid !important;
+	color: #FFF !important;
+	padding: 9px 10px;
+	background-color: #250088 !important;
+	font-size: 17px;
+	box-shadow: none !important;
+}
+
+table.th-center th,
+table.td-center td {
+	text-align: center;
+}
+
+.toast.alert {
+	flex-basis: 700px;
+	max-width: 700px;
+	width: 700px;
+	position: fixed;
+	z-index: 1051;
+	bottom: 0px;
+	left: 50%;
+	margin-left: -350px;
+	background-color: #000;
+	color: #FFF;
+	opacity: 0;
+	padding: 22px 35px;
+	box-shadow: none;
+	transition: -webkit-all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out, -webkit-all 0.5s ease-in-out;
+}
+
+.toast.alert>.btn-close-white-xs {
+	position: absolute;
+	top: 19px;
+	right: 28px;
+	z-index: 2;
+	opacity: 0.5;
+}
+
+.toast.alert>.toast-body {
+	font-size: 11px;
+	padding: 0;
+	opacity: 0.8;
+}
+
+.toast.alert.show {
+	opacity: 0.8;
+	bottom: 98px;
+}
+
+.btn-close-white-xs {
+	background: url(../images/btn-close-white-xs.png) 50% 50% no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.btn-reset {
+	min-width: 30px;
+	height: 30px;
+	padding: 0 10px;
+	background: url("../images/btn-reset.png") 50% 50% no-repeat;
+}
+
+.form-row [class*="col"] .btn-reset {
+	position: absolute;
+	top: 1px;
+	right: 5px;
+	z-index: 2;
+}
+
+.check-url-result .scroll {
+	max-height: 150px;
+	padding: 10px;
+	overflow: scroll;
+}
+
+.request-btn-reset {
+    background: url(../images/btn-reset.png) 50% 50% no-repeat;
+    position: absolute;
+    top: 0;
+    right: 80px;
+    z-index: 2;
+    width: 40px;
+    height: 32px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.pu-badge-list .badge {
+    margin: 2px;
+    padding: 3px 22px 3px 7px;
+    position: relative;
+    width: auto;
+    font-size: 13px;
+    font-weight: 400;
+    background-color: #FFF;
+    border: #000 1px solid;
+    border-radius: 0;
+}
+
+.badge [data-role="remove"] {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    z-index: 2;
+    cursor: pointer;
+    background: url("../images/btn-del-x.png") 50% 50% no-repeat;
+    width: 16px;
+    height: 16px;
+}

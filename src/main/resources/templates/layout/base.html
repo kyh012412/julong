@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>회사명</title>
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/css/fonts.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/sweetalert2.css" rel="stylesheet">
+    <link href="/css/summernote-lite.css" rel="stylesheet">
+    <th:block layout:fragment="page_level_css"></th:block>
+
+    <!-- 
+    <script defer type="text/javascript" src="/lib/bootstrap-filestyle-2.1.0.min.js?v=2022-01-14"></script>
+    <script defer type="text/javascript" src="/lib/datepicker-1.0.10.min.js"></script>
+    <script defer type="text/javascript" src="/lib/datepicker.ko-KR.js"></script>
+	<script defer type="text/javascript" src="/lib/fileinput.js"></script>
+-->
+
+    <!-- 컨버전 start -->
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <link href="/css/daterangepicker.css" rel="stylesheet">
+    <link href="/css/fonts.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- 개발자전용 css -->
+    <link href="/css/common.css" rel="stylesheet">
+
+    <!-- 폴리필 -->
+    <script defer type="text/javascript" src="/lib/babel-polyfill-7.12.1.min.js"></script>
+    <script defer type="text/javascript" src="/lib/polyfill.js"></script>
+
+    <script type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery-ui-1.11.4.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="/lib/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="/lib/moment.min.js"></script>
+    <script type="text/javascript" src="/lib/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="/lib/tagsinput.js"></script>
+    <script defer type="text/javascript" src="/lib/parsley/parsley.min.js"></script>
+    <script defer type="text/javascript" src="/lib/parsley/ko.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script defer type="text/javascript" src="/lib/json2html.min.js"></script>
+    <!-- sweetalert2 es5 커스텀 -->
+    <!-- <script defer type="text/javascript" src="/lib/sweetalert2.min.js"></script> -->
+    <script defer type="text/javascript" src="/lib/sweetalert2.js"></script>
+    <script defer type="text/javascript" src="/lib/timepicker.js"></script>
+
+    <script type="text/javascript" src="/lib/ui.js"></script>
+
+    <script defer type="text/javascript" src="/js/common/myanalysis-config.js"></script>
+    <script defer type="text/javascript" src="/js/common/page-nav.js"></script>
+    <script defer type="text/javascript" src="/js/common/common.js"></script>
+    <script defer type="text/javascript" src="/js/common/control.js"></script>
+    <script defer type="text/javascript" src="/js/common/modal.js"></script>
+    <script defer type="text/javascript" src="/js/common/page-nav.js"></script>
+    <script defer type="text/javascript" src="/js/common/content-page.js"></script>
+    <script defer type="text/javascript" src="/js/common/search.js"></script>
+    <script async type="text/javascript" src="/js/common/myinfo.js"></script>
+    <script defer type="text/javascript" src="/js/common/gpt.js"></script>
+    <!-- 컨버전 end -->
+</head>
+
+<body data-spy="scroll">
+
+    <div class="chatGPT">
+        <div class="header">
+            <h3>
+                <img src="/images/logo-chat.png" alt="IT">
+                <span>GPT</span>
+            </h3>
+            <button type="button" class="btn btn-close"></button>
+        </div>
+        <div class="body">
+            <div class="form-row">
+                <div class="col">
+                    <select id="selectId" hidden>
+                        <option selected value="4">Chat</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chat-scroll scroll" id="chatDiv">
+            </div>
+        </div>
+        <div class="footer">
+            <textarea class="form-control-sm-gpt" rows="2" id="textContent"></textarea>
+            <button type="button" class="btn btn-primary-gpt" id="chatSend">Send</button>
+        </div>
+        <p class="copyright">© IT. ALL RIGHTS RESERVED.</p>
+    </div>
+    <button type="button" class="btn btn-primary-gpt btn-GPT"><b>ITX</b><br>GPT</button>
+
+
+    <div class="wrap">
+        <div th:replace="layout/header :: header"></div>
+        <th:block layout:fragment="left"></th:block>
+        <div th:replace="layout/contents :: contents"></div>
+        <div th:replace="layout/modal :: modal"></div>
+    </div>
+    <div th:replace="layout/footer :: footer"></div>
+
+    <script defer type="text/javascript">
+        // JavaScript 파일 다국어 처리
+        /* <![CDATA[*/
+        const LANG = "[[${#locale.language}]]";
+
+        const COUNT_TEXT = "[[#{dashboard.count}]]";
+
+        const TEXT_LST_ASK_SAVE_CHANGES = "[[#{M_check.save}]]";
+        const TEXT_LST_ASK_DELETE_CHANGES = "[[#{M_check.delete}]]";
+        const TEXT_LST_ASK_SAVE_SUCCESS = "[[#{M_info.save.success}]]";
+        const TEXT_LST_ASK_DELETE_SUCCESS = "[[#{M_info.delete.success}]]";
+
+
+        const TEXT_LANGUAGE_SELECTION = "[[#{modal.myInfo.languageSelection}]]";
+        const TEXT_ASK_SAVE_CHANGES = "[[#{modal.myInfo.askSaveChanges}]]";
+        const TEXT_SAVED_CHANGES = "[[#{modal.myInfo.savedChanges}]]";
+        const TEXT_FAILED_SAVE_CHANGES = "[[#{modal.myInfo.failedSaveChanges}]]";
+        const TEXT_FAILED_LOAD_USER_INFO = "[[#{modal.myInfo.failedLoadUserInfo}]]";
+        const TEXT_NOT_MATCH_NEW_PASSWORDS = "[[#{modal.myInfo.notMatchNewPasswords}]]";
+        const TEXT_FAILED_CHANGE_SAME_PASSWORD = "[[#{modal.myInfo.failedChangeSamePassword}]]";
+        const TEXT_FAILED_CHANGE_LENGTH = "[[#{modal.myInfo.failedChangeLength}]]";
+        const TEXT_CANCEL = "[[#{modal.cancel}]]";
+        const TEXT_SAVE = "[[#{modal.save}]]";
+        const TEXT_ERROR = "[[#{modal.error}]]";
+
+        const TEXT_COMPANY_INFO = "[[#{myAnalysis.companyInfo}]]";
+        const TEXT_COMPANY_NAME = "[[#{myAnalysis.companyName}]]";
+        const TEXT_HOMEPAGE = "[[#{myAnalysis.homepage}]]";
+        const TEXT_MAIN_PHONE = "[[#{myAnalysis.mainPhone}]]";
+        const TEXT_FOUNDING_DATE = "[[#{myAnalysis.foundingDate}]]";
+        const TEXT_CEO = "[[#{myAnalysis.ceo}]]";
+        const TEXT_ADDRESS = "[[#{myAnalysis.address}]]";
+        const TEXT_SECTOR = "[[#{myAnalysis.sector}]]";
+        const TEXT_STOCK_INFO = "[[#{myAnalysis.stockInfo}]]";
+        const TEXT_HOMEPAGE_NEWS = "[[#{myAnalysis.homepageNews}]]";
+        const TEXT_STOCK_NEWS = "[[#{myAnalysis.stockNews}]]";
+        const TEXT_DISCLOSURE_INFO = "[[#{myAnalysis.disclosureInfo}]]";
+        const TEXT_JUST_BEFORE = "[[#{common.justBefore}]]";
+        const TEXT_MORE = "[[#{common.more}]]";
+        const TEXT_NO_DATA_COLLECTED = "[[#{message.noCollectedData}]]";
+
+        const TEXT_COMPETITOR = "[[#{common.competitor}]]";
+        const TEXT_CUSTOMER = "[[#{common.customer}]]";
+        const TEXT_NEWS = "[[#{common.news}]]";
+        const TEXT_CLIENT = "[[#{common.client}]]";
+
+        const TEXT_MY_CLIPPING = "[[#{myClipping.myClipping}]]";
+        const TEXT_MY_CLIPPING_UNCLASSIFIED_TAG = "[[#{myClipping.unclassifiedTag}]]";
+
+        const TEXT_LEAD_ASK = "[[#{modal.lead.ask}]]";
+        const TEXT_LEAD_WARNING = "[[#{modal.lead.warning}]]";
+
+        const TEXT_NO_DATA = "[[#{result.noData}]]";
+        const TEXT_N_ROWS_PER_PAGE = "[[#{result.nRowsPerPage}]]";
+
+        const TEXT_INPUT_TEXT = "[[#{search.inputText}]]";
+
+        const TEXT_CRAWLING_KEY = "[[#{rCollect.crawlingKey}]]";
+        const TEXT_REQUESTER = "[[#{rCollect.requester}]]";
+        const TEXT_CRAWLING_STATUS = "[[#{rCollect.status}]]";
+        const TEXT_CRAWLING_CATEGORY = "[[#{rCollect.category}]]";
+        const TEXT_SITE_NAME = "[[#{rCollect.siteName}]]";
+        const TEXT_SITE_URL = "[[#{rCollect.siteUrl}]]";
+        const TEXT_CRAWLING_NATION = "[[#{rCollect.nation}]]";
+        const TEXT_LOGIN_REQUIRED = "[[#{rCollect.loginRequired}]]"
+        const TEXT_LOGIN_NOT_REQUIRED = "[[#{rCollect.notLoginRequired}]]"
+
+        const TEXT_RELEASE_NEW = "[[#{release.new}]]";
+        const TEXT_RELEASE_IMPROVEMENT = "[[#{release.improvement}]]";
+        const TEXT_RELEASE_ERROR = "[[#{release.error}]]";
+
+        const TEXT_FAIL_LOAD_PERSON = "[[#{error.failLoadPerson}]]";
+        const TEXT_FAIL_LOAD_DATA = "[[#{error.failLoadData}]]";
+
+        const TEXT_PERMIT_REQUEST = "[[#{common.request}]]";
+        const TEXT_PERMIT_WAIT = "[[#{common.wait}]]";
+        const TEXT_PERMIT_APPROVED = "[[#{common.approved}]]";
+        const TEXT_PERMIT_REJECT = "[[#{common.reject}]]";
+
+        const TEXT_CATEGORY_NEWS = "[[#{common.news}]]";
+        const TEXT_CATEGORY_MYCOMPANY = "[[#{common.myCompany}]]";
+        const TEXT_CATEGORY_COMPETITOR = "[[#{common.competitor}]]";
+        const TEXT_CATEGORY_CUSTOMER = "[[#{common.customer}]]";
+        const TEXT_CATEGORY_BIDDING = "[[#{common.bidding}]]";
+        const TEXT_CATEGORY_PEOPLE = "[[#{common.person}]]";
+
+        const TEXT_VOC_ACQUIRED_PU = "[[#{voc.acquiredByPu}]]";
+        const TEXT_VOC_ACQUIRED_TEAM = "[[#{voc.acquiredByTeam}]]";
+        const TEXT_VOC_ACQUIRED_REGION = "[[#{voc.acquiredByRegion}]]";
+        const TEXT_VOC_ACQUIRED_CATEGORY = "[[#{voc.acquiredByCategory}]]";
+        const TEXT_VOC_ACQUIRED_CUSTOMER = "[[#{voc.acquiredByCustomer}]]";
+        const TEXT_VOC_SEARCH_OPTION_DATE = "[[#{voc.searchOptionDate}]]";
+        const TEXT_VOC_SEARCH_OPTION_LEVEL = "[[#{voc.searchOptionLevel}]]";
+        const TEXT_VOC_SEARCH_OPTION_TYPE = "[[#{voc.searchOptionType}]]";
+        const TEXT_VOC_SEARCH_OPTION_STATUS = "[[#{voc.searchOptionStatus}]]";
+        const TEXT_VOC_SEARCH_OPTION_TEAM = "[[#{voc.searchOptionTeam}]]";
+        const TEXT_VOC_SEARCH_OPTION_REGION = "[[#{voc.searchOptionRegion}]]";
+        const TEXT_VOC_SEARCH_OPTION_CATEGORY = "[[#{voc.searchOptionCategory}]]";
+        const TEXT_VOC_SEARCH_OPTION_CUSTOMER = "[[#{voc.searchOptionCustomer}]]";
+        const TEXT_VOC_AVERAGE_NUMBER_DAY = "[[#{voc.AverageNumberPerDay}]]";
+
+        const TEXT_VOC_TOTAL_COUNT = "[[#{voc.totalCount}]]";
+        const TEXT_VOC_AVG_PROC_NUM_DAY = "[[#{voc.averageProcNumberPerDay}]]";
+        const TEXT_VOC_LEVEL = "[[#{voc.acquiredByLevel}]]";
+        const TEXT_VOC_LEVEL_MONTHLY = "[[#{voc.acquiredByLevelMonthly}]]";
+        const TEXT_VOC_TYPE = "[[#{voc.acquiredByType}]]";
+        const TEXT_VOC_TYPE_MONTHLY = "[[#{voc.acquiredByTypeMonthly}]]";
+        const TEXT_VOC_STATUS = "[[#{voc.acquiredByStatus}]]";
+        const TEXT_VOC_INCOMPLETE = "[[#{voc.incomplete}]]";
+        const TEXT_VOC_COMPLETE = "[[#{voc.complete}]]";
+        const TEXT_VOC_STATUS_COUNT = "[[#{voc.acquiredByStatusCount}]]";
+        const TEXT_VOC_STATUS_MONTHLY = "[[#{voc.acquiredByStatusMonthly}]]";
+        const TEXT_VOC_AVG_PERIOD = "[[#{voc.avgProcPeriod}]]";
+        const TEXT_VOC_AVG_PERIOD_INPUT = "[[#{voc.avgProcPeriodFromInput}]]";
+        const TEXT_VOC_AVG_PERIOD_OCCUR = "[[#{voc.avgProcPeriodFromOccur}]]";
+        const TEXT_VOC_AVG_PERIOD_COUNT = "[[#{voc.avgProcPeriodCount}]]";
+        const TEXT_VOC_AVG_PERIOD_MONTHLY = "[[#{voc.avgProcPeriodMonthly}]]";
+        const TEXT_VOC_COUNT = "[[#{voc.count}]]";
+        const TEXT_VOC_DATE_COUNT = "[[#{voc.dateCount}]]";
+
+        const TEXT_VOC_KEYWORD_PRODUCT = "[[#{voc.keywordProduct}]]";
+        const TEXT_VOC_KEYWORD_PRODUCT_MONTHLY = "[[#{voc.keywordProductMonthly}]]";
+        const TEXT_VOC_KEYWORD_QUALITY = "[[#{voc.keywordQuality}]]";
+        const TEXT_VOC_KEYWORD_QUALITY_MONTHLY = "[[#{voc.keywordQualityMonthly}]]";
+        const TEXT_VOC_KEYWORD_TREND = "[[#{voc.keywordTrend}]]";
+        const TEXT_VOC_KEYWORD_TREND_MONTHLY = "[[#{voc.keywordTrendMonthly}]]";
+        const TEXT_VOC_KEYWORD_OTHERS = "[[#{voc.keywordOther}]]";
+        const TEXT_VOC_KEYWORD_OTHER_MONTHLY = "[[#{voc.keywordOtherMonthly}]]";
+
+        const TEXT_GROUP_DELETE = "[[#{modal.myGroup.delete}]]";
+        const TEXT_GROUP_DELETE_ASK = "[[#{modal.myGroup.askDelete}]]";
+        const TEXT_GROUP_DELETE_SELECT = "[[#{modal.myGroup.selectDelete}]]";
+        const TEXT_GROUP_DELETED = "[[#{modal.myGroup.deleted}]]";
+        const TEXT_GROUP_CREATE = "[[#{modal.myGroup.new}]]";
+        const TEXT_GROUP_SELECT = "[[#{modal.myGroup.select}]]";
+        const TEXT_GROUP_EDIT_ASK = "[[#{modal.myGroup.askEditName}]]";
+        const TEXT_GROUP_EDITED = "[[#{modal.myGroup.editedName}]]";
+        const TEXT_GROUP_CREATE_ASK = "[[#{modal.myGroup.askCreateName}]]";
+        const TEXT_GROUP_CREATED = "[[#{modal.myGroup.createdName}]]";
+        const TEXT_GROUP_CHANGE_SELECT = "[[#{modal.myGroup.selectChange}]]";
+
+        const TEXT_VOCLIST_TABLE01 = "[[#{M_Lst_UpdateDate}]]";
+		const TEXT_VOCLIST_TABLE02 = "[[#{M_Lst_MeetingDate}]]";
+		const TEXT_VOCLIST_TABLE03 = "[[#{M_Lst_DataSource}]]";
+		const TEXT_VOCLIST_TABLE04 = "[[#{M_Lst_VocNo}]]";
+		const TEXT_VOCLIST_TABLE05 = "[[#{M_Lst_Customer}]]";
+		const TEXT_VOCLIST_TABLE06 = "[[#{M_Lst_Team}]]";
+		const TEXT_VOCLIST_TABLE07 = "[[#{M_Lst_Employee}]]";
+		const TEXT_VOCLIST_TABLE08 = "[[#{M_Lst_VocTitle}]]";
+		const TEXT_VOCLIST_TABLE09 = "[[#{M_Lst_VocCategory}]]";
+		const TEXT_VOCLIST_TABLE10 = "[[#{M_Lst_GbisContents}]]";
+
+		const TEXT_VOC_TOTAL_COUNT_A = "[[#{M_lbl_C_TotalCount}]]";
+		const TEXT_LST_TEAM = "[[#{M_Lst_Team}]]";
+		const TEXT_VOC_COUNT_A = "[[#{M_lbl_cases}]]";
+
+
+		const TEXT_LST_ASK_PASSWORRD_CHK = "[[#{M_lbl_CofNewPwd}]]";
+
+		const TEXT_LST_GRID_LABEL_1 = "[[#{M_Lbl_customer}]]";
+		const TEXT_LST_GRID_LABEL_2 = "[[#{M_Lbl_Employee}]]";
+		const TEXT_LST_GRID_LABEL_3 = "[[#{M_Lbl_Region}]]";
+		const TEXT_LST_GRID_LABEL_4 = "[[#{M_Lbl_PU}]]";
+		const TEXT_LST_GRID_LABEL_5 = "[[#{M_Lbl_Hcount}]]";
+
+		const TEXT_LST_MODAL_1 = "[[#{M_btn_SeeTranslation}]]";
+		const TEXT_LST_MODAL_2 = "[[#{M_btn_CloseTranslation}]]";
+
+		const TEXT_MSG_MSG_1 = "[[#{M_MSG_DATA_NOT_FOUND}]]";
+		const TEXT_MSG_MSG_2 = "[[#{M_MSG_DATA_NOT_MATCH}]]";
+		const TEXT_MSG_MSG_3 = "[[#{M_MSG_DATA_PERIOD_MONTH}]]";
+
+		const TEXT_BTM_SEE_1 = "[[#{M_btn_SeeTranslation}]]";
+
+		const TEXT_BTM_CLOSE_1 = "[[#{M_btn_CloseTranslation}]]";
+		const TEXT_MSG_MSG_4 = "[[#{M_MSG_DATA_NOT_FORMAT}]]";
+
+    </script>
+
+    <th:block layout:fragment="page_level_script"></th:block>
+
+</body>
+
+</html>

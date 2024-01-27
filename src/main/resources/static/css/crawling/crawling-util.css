@@ -1,0 +1,69 @@
+#siteRequestTable.hide,
+#peopleRequestTable.hide,
+.btn-site-request.hide,
+.btn-people-request.hide{
+    display: none;
+}
+#siteRequestTable.show,
+#peopleRequestTable.show{
+    display: table;
+}
+.btn-site-request.show,
+.btn-people-request.show{
+    display: block;
+}
+#ocrInfo{
+    display: none;
+}
+#ocrInfo.active{
+    display: block;
+}
+.select2-container {
+    width: 100% !important;
+}
+.select2-selection.select2-selection--single {
+    padding: 9px 12px;
+    border: #ccc 1px solid;
+    border-radius: 0;
+    color: #000;
+    font-weight: 100;
+    font-size: 14px;
+    width: 100%;
+    height: 40px;
+}
+.select2-selection__rendered {
+    margin-top: -3px;
+    margin-left: -10px;
+    font-weight: 400;
+}
+.select2-selection__arrow {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.select2-results .select2-results__options {
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.table-data-list th, .table-data-list-view th {
+    background: #FFF !important;
+}
+.url-duple-list-result .scroll {
+    max-height:150px;
+    padding:10px;
+}
+.table-url-duple-list tr {
+    padding:10px 0;
+    line-height:1rem;
+}
+.table-url-duple-list td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: revert !important;
+    padding: 10px !important;
+}
+
+.permits, .permit{
+    width:63px !important;
+}

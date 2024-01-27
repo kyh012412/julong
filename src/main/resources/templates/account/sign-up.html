@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>회사명</title>
+
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/fonts.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/account/sign-up.css" rel="stylesheet">
+
+    <!-- DashForge CSS -->
+    <link href="/assets/css/dashforge.css" rel="stylesheet" >
+</head>
+<body>
+    <header class="header">
+        <div class="header-bar">
+            <a href="#" class="logo"><img src="/images/logo.png" alt="회사명"></a>
+        </div>
+    </header>
+
+    <div class="content content-fixed content-auth content-wrap">
+        <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
+            <div class="sign-wrapper mg-lg-r-50 mg-xl-r-60">
+                <div class="pd-t-20 wd-100p">
+                    <h3 class="tx-color-01 mg-b-5">회원가입</h3>
+                    <p class="tx-color-03 tx-16 mg-b-40"></p>
+                    <form data-parsley-validate id="signUpForm" method="post">
+                        <div class="form-group">
+                            <label>아이디</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="memberId"
+                                   placeholder="아이디"
+                                   autocomplete="off"
+                                   required
+                                   data-parsley-member-id
+                            >
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label> 비밀번호</label>
+                                    <input type="password"
+                                           class="form-control not-kor"
+                                           id="password"
+                                           name="password"
+                                           placeholder="패스워드"
+                                           autocomplete="off"
+                                           required
+                                           data-parsley-password-minlength="6"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label> 비밀번호 확인</label>
+                                    <input type="password"
+                                           class="form-control not-kor"
+                                           name="confirmPassword"
+                                           placeholder="패스워드 확인"
+                                           autocomplete="off"
+                                           required
+                                           data-parsley-confirm-password="#password"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>이름</label>
+                            <input type="text"
+                                   autocomplete="off"
+                                   class="form-control kor"
+                                   name="memberName"
+                                   placeholder="이름"
+                                   required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label>이메일</label>
+                            <input type="email"
+                                   autocomplete="off"
+                                   class="form-control"
+                                   name="email"
+                                   placeholder="이메일"
+                                   required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label>휴대폰번호</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="phoneNo"
+                                   placeholder="휴대폰번호"
+                                   autocomplete="off"
+                                   required
+                                   data-parsley-phone-no
+                            >
+                        </div>
+                        <div class="form-buttons-w">
+                            <button class="btn btn-brand-02 btn-block" type="submit">회원가입</button>
+                        </div>
+                        <div class="tx-13 mg-t-20 tx-center">이미 계정이 있다면? <a href="/account/login">Sign In</a></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="display: flex">
+        <a href="#" class="logo"><img src="/images/logo-footer.png" alt="회사명"/></a>
+        <div class="copyright">
+            <p>회사명</p>
+            <p>© ALL RIGHTS RESERVED.</p>
+        </div>
+        <div class="btn-footer-group">
+            <a href="#">개인정보처리방침</a>
+        </div>
+    </footer>
+
+    <script defer type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
+    <script defer type="text/javascript" src="/lib/jquery-ui-1.11.4.min.js"></script>
+    <script defer type="text/javascript" src="/lib/bootstrap.bundle.min.js"></script>
+    <script defer type="text/javascript" src="/lib/parsley/parsley.min.js"></script>
+    <script defer type="text/javascript" src="/lib/parsley/ko.js"></script>
+    <script defer type="text/javascript" src="/lib/sweetalert2.min.js"></script>
+
+    <script defer type="text/javascript" src="/js/account/sign-up.js"></script>
+
+</body>
+</html>

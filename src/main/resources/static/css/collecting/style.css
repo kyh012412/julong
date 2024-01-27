@@ -1,0 +1,67 @@
+.attached-img {
+    background: url(../../images/ico-attachfile.png) 0 center no-repeat;
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+}
+
+.attached > .files > .abstract {
+    padding-left: 27px;
+    line-height: 22px;
+    margin: 4px;
+    color: #444 !important;
+}
+
+.btn-filter > input.qty {
+    width: 32px;
+    height: 28px;
+    font-size: 11px;
+    border: none;
+    padding: 0;
+    text-align: center;
+    background-color: transparent;
+    outline: none;
+    margin: 28px 0 0;
+    color: #5f41cb;
+    font-weight: 600;
+}
+
+.cont-group.brb-line.flex.ptb-5.fixed {
+    position: fixed;
+    background-color: #fff;
+    width: 100%;
+    z-index: 14;
+    top: 47px;
+}
+
+.cont-group > .form-row.col-100.fixed {
+    padding-top: 30px;
+}
+
+.arrow-top {
+    position: fixed;
+    right: 11%;
+    bottom: 5%;
+    z-index: 15;
+}
+
+.top-button-size {
+    font-size: 50px;
+}
+
+.control-area {
+    width: 3%;
+    opacity: 0.3;
+}
+
+.control-button {
+    height: 250px;
+    width: 55px;
+    background-color: #0000006e;
+    border-radius: 25px;
+}
+
+.ranking-wrap {
+    display: none !important;
+}

@@ -1,0 +1,25 @@
+/* =============
+            Form elements
+        ============= */
+.error {
+    color: #f05050;
+    font-size: 12px;
+    font-weight: 500;
+}
+/* Form validation */
+.parsley-error {
+    border-color: #f05050 !important;
+}
+.parsley-errors-list {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+.parsley-errors-list.filled {
+    display: block;
+}
+.parsley-errors-list > li {
+    font-size: 12px;
+    list-style: none;
+    color: #f6504d;
+}

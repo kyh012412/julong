@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="generator" content="">
+<title>Sign in</title>
+<link href="/css/bootstrap-icons.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+<link href="/css/fonts.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="login-container">
+    <div class="head">
+        <h1><img src="/images/logo.png" alt=""/></h1>
+    </div>
+    <div class="body">
+        <form id="login-form" method="POST" action="/account/loginProcess" data-parsley-validate>
+<!-- sso 로긴 여부 -->
+            <input type="hidden" name="ssoFlag" value="N" >
+            <div class="form-group">
+                <label for="username">ID</label>
+                <!--<input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력해주세요." value='test'>-->
+                <input type="text" class="form-control login-input" id="username" name="username" placeholder="ID" value='' required
+				oninvalid="this.setCustomValidity('Enter ID Here')"
+				oninput="this.setCustomValidity('')" 
+				/>
+            </div>
+            <div class="form-group">
+                <label for="password">PASSWORD</label>
+                <!--<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력해주세요." value='xtrm11'>-->
+                <input type="password" class="form-control login-input" id="password" name="password" placeholder="PASSWORD" autocomplete="new-password" value='' required
+				oninvalid="this.setCustomValidity('Enter PASSWORD Here')"
+				oninput="this.setCustomValidity('')" 
+				/>
+            </div>
+			<!--
+            <button type="submit" class="btn btn-primary btn-block">로그인</button>
+			-->
+			<th:block th:if="${session.errMsg == null}">
+					<div class="pd-2" style="color: darkred" th:text="${session.errMsg}"></div>
+                    <div class="pd-2" style="color: darkred;display: none;" id="itx_errchk">비밀번호 초기화는 메일 주시기바랍니다.</div>
+			</th:block>
+			<button class="btn btn-primary btn-block">Sign in</button>
+        </form>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            <p><img src="" alt="IT"></p>
+            <p>COPYRIGHT © IT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </div>
+</div>
+	<script type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script> 
+	<script type="text/javascript" src="/lib/jquery-ui-1.11.4.min.js"></script> 
+	<script type="text/javascript" src="/lib/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="/lib/jquery.slimscroll.min.js"></script> 
+	<script type="text/javascript" src="/lib/bootstrap.bundle.min.js"></script> 
+	<script type="text/javascript" src="/lib/bootstrap-multiselect.js"></script> 
+	<script type="text/javascript" src="/lib/ui.js"></script>
+
+<script>
+/*
+      (function () {
+        var viewModel = {
+          templateIE: function (browser, version) {
+            var template = '';
+            template += '<div class="result_inner">';
+            template += '<h2 class="tit">저희 사이트는 ' + browser + '' + version + '을 지원하지 않습니다.</h2>';
+            template += '<h2 class="tit"> 엣지, 크롬 브라우저에 최적화 되어 있습니다.</h2>';
+            template += '</div>';
+            document.querySelector('body').innerHTML = template;
+//console.log(window.location);
+            window.location = 'microsoft-edge:' + window.location.href;
+			//window.location = 'microsoft-edge:' + "http://127.0.0.1:8080/account/form-login";
+          },
+        };
+
+        var detectIE = function () {
+          var ua = window.navigator.userAgent;
+          var msie = ua.indexOf('MSIE');
+          if (msie > 0) {
+            // IE 10 이상 버전 채크
+            return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+          }
+          var trident = ua.indexOf('Trident/');
+          if (trident > 0) {
+            // IE 11 버전 체크
+            var rv = ua.indexOf('rv:');
+            return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+          }
+          // 다른 브라우저 리턴
+          return false;
+        };
+
+        // IE 또는 Edge 브라우저 버전 가져오기
+        var version = detectIE();
+
+        if (version) {
+          return viewModel.templateIE('IE', version);
+        }
+      })();
+*/
+
+/*
+	if(navigator.userAgent.indexOf("Trident") > 0){ 
+		window.location = 'microsoft-edge:' + window.location.href; 
+	} else if(/MSIE \d |Trident.*rv:/.test(navigator.userAgent)){
+		window.location = 'microsoft-edge:' + window.location.href; 
+	}
+*/
+/*
+
+	var agent = window.navigator.userAgent.toLowerCase(); 
+	var appName = window.navigator.appName.toLowerCase(); 
+	if((appName === 'netscape' && agent.indexOf('trident')!== -1) || agent.indexOf('msie') !== -1) { 
+
+		if(confirm("현재 페이지는 인터넷익스플로러(IE)브라우저를 지원하지 않습니다. " + "크롬 혹은 엣지브라우저에서 정상적으로 작동됩니다. 해당 브라우저로 이동하시겠습니까?")) { 
+		//	window.location = "microsoft-edge:" + window.location.href; 
+		//} 
+		//window.location = "microsoft-edge:" + window.location.href; 
+
+		var form = document.createElement("form");
+		form.target = "_blank";
+		form.method = "POST";
+		form.action = "http://127.0.0.1:8080/account/loginProcess";
+		form.style.display = "none";
+ 
+        var input1 = document.createElement("input");
+        input1.type = "hidden";
+        input1.name = "username";
+        input1.value = "test";
+        form.appendChild(input1);
+
+        var input2 = document.createElement("input");
+        input2.type = "hidden";
+        input2.name = "password";
+        input2.value = "xtrm11";
+        form.appendChild(input2);
+ 
+		document.body.appendChild(form);
+		form.submit();
+		document.body.removeChild(form);
+
+		}
+
+	}else{
+	}
+*/
+
+	var s1 = window.location.host;
+	if(s1.toLowerCase().match("itx."))
+		$('#itx_errchk').css("display", "block");
+	else
+		$('#itx_errchk').css("display", "none");
+</script>
+    <!-- append theme customizer -->
+    <script th:inline="javascript">
+
+    $('#username').val('test')
+    $('#password').val('xtrm11')
+        function loginCheck() {
+            const check = /*[[${errorCheck}]]*/;
+            const errormsg = /*[[${errMsg}]]*/;
+			/*
+            if(check){
+                Swal.fire({
+                    title: "로그인이 실패하였습니다.",
+                    text: "로그인 정보를 다시 확인해주세요.",
+                    icon: "error",
+                });
+            }
+			*/
+        }
+        loginCheck();
+    </script>
+
+</body>
+</html>

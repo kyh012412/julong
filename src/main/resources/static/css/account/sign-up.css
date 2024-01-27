@@ -1,0 +1,13 @@
+.input[type=text], .input[type=email] {
+  -webkit-ime-mode: inactive !important;
+  -moz-ime-mode: inactive !important;
+  -ms-ime-mode: inactive !important;
+  ime-mode: inactive !important;
+}
+
+.input[type=text].kor {
+  -webkit-ime-mode: active !important;
+  -moz-ime-mode: active !important;
+  -ms-ime-mode: active !important;
+  ime-mode: active !important;
+}

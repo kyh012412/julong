@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>회사명</title>
+
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <link href="/css/fonts.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="head">
+            <h1><img src="/images/logo.png" alt="" /></h1>
+        </div>
+        <div class="body">
+            <form id="login-form" method="POST" action="/account/loginProcess" data-parsley-validate>
+                <!-- sso 로긴 여부 -->
+                <input type="hidden" name="ssoFlag" value="N">
+                <div class="form-group">
+                    <label for="username">ID</label>
+                    <input type="text" class="form-control login-input" id="username" name="username" placeholder="ID" value='' required
+                        oninvalid="this.setCustomValidity('Enter ID Here')" oninput="this.setCustomValidity('')" />
+                </div>
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" class="form-control login-input" id="password" name="password" placeholder="PASSWORD" autocomplete="new-password"
+                        value='' required oninvalid="this.setCustomValidity('Enter PASSWORD Here')" oninput="this.setCustomValidity('')" />
+                </div>
+                <th:block th:if="${session.errMsg == null}">
+                    <div class="pd-2" style="color: darkred" th:text="${session.errMsg}"></div>
+                    <div class="pd-2" style="color: darkred;display: none;" id="itx_errchk">비밀번호 초기화는 메일 주시기바랍니다.</div>
+                </th:block>
+                <button class="btn btn-primary btn-block">Sign in</button>
+            </form>
+        </div>
+        <div class="footer">
+            <div class="copyright">
+                <p><img src="" alt="IT"></p>
+                <p>COPYRIGHT © IT ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery-ui-1.11.4.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/lib/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="/lib/ui.js"></script>
+
+    <script>
+        var s1 = window.location.host;
+        if (s1.toLowerCase().match("itx."))
+            $('#itx_errchk').css("display", "block");
+        else
+            $('#itx_errchk').css("display", "none");
+    </script>
+
+    <script th:inline="javascript">
+
+        $('#username').val('test')
+        $('#password').val('xtrm11')
+        function loginCheck() {
+            const check = /*[[${errorCheck}]]*/;
+            // const errormsg = /*[[${errMsg}]]*/;
+            const errormsg = /*[[${errormsg}]]*/;
+            if(check){
+                Swal.fire({
+                    title: "로그인이 실패하였습니다.",
+                    text: "로그인 정보를 다시 확인해주세요.",
+                    icon: "error",
+                });
+            }
+        }
+        loginCheck();
+    </script>
+
+</body>
+
+</html>

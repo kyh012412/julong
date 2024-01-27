@@ -1,0 +1,15 @@
+#crawlDataList_wrapper{
+    margin-top: -30px;
+}
+
+#crawlList_wrapper{
+    margin-top: -30px;
+}
+
+#crawlDataList_wrapper>.thead-fixed>.scroll{
+    height: 550px !important;
+}
+
+.datepicker-container{
+    z-index: 2000 !important;
+}

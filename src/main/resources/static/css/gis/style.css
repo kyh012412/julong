@@ -1,0 +1,33 @@
+.btn-pin.default {
+	display: none;
+}
+.btn-pin.red {
+    display: none;
+}
+.map-sample-redefine{
+    background: none;
+	width: 100%;
+	height: 100%;
+	opacity: 0.8;
+}
+.map-legend{
+	position: absolute;
+	top: 20px;
+	left: 50px;
+	z-index: 2;
+}
+#info_id{
+	display: none;
+}
+#info_operationType{
+	display: none;
+}
+#info_city_ko{
+	display: none;
+}
+#info_city_en{
+	display: none;
+}
+#info_country_code{
+	display: none;
+}

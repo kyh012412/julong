@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block layout:fragment="page_level_css">
+	<link href="/css/collecting/style.css" rel="stylesheet" />
+</th:block>
+<th:block th:fragment="modal" class="modal-content-wrap">
+<div class="modal fade" id="myinfoModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="myinfoModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-mid">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header">
+				<h3 class="tit" th:text="#{M_TIT_MyInfo}">나의 정보</h3>
+			</div>
+			<div class="modal-body">
+				<table class="table table-data2 table-myinfo-update">
+					<colgroup>
+						<col width="30%">
+						<col width="70%">
+					</colgroup>
+					<tbody>
+					<input type="hidden" id="myinfo_memberKey">
+					<tr>
+						<th th:text="#{M_lbl_photo}">사진</th>
+						<td>
+							<div class="photo" id="myinfo_photo"></div>
+							<form method="post" enctype="multipart/form-data" action="" class="photo-upload" id="myinfo_photoFileForm">
+								<label for="myinfo_photoFile">
+									<input type="file"
+										   id="myinfo_photoFile"
+										   class="filestyle"
+										   data-buttonBefore="true"
+										   th:attr="data-text=#{M_lbl_File}"
+										   name="file"
+										   multiple="false"
+										   accept="application/pdf,image/*"
+									>
+								</label>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_HopeId}">사번</th>
+						<td><span id="myinfo_employeeNo"></span></td>
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_UserName}">이름</th>
+						<td><span id="myinfo_memberName"></span></td>
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_NowPwd}">현재 비밀번호</th>
+						<td><input type="password" class="form-control-sm myinfo-password"  th:placeholder="#{M_lbl_NowPwd}"  value="" id="myinfo_oriPassword" data-parsley-password-minlength="6" /></td>
+						<div class="pd-2 password-chk" style="color: darkred;display: none"><span id="currentPassword-chk"></span></div>
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_NewPwd}">신규 비밀번호</th>
+						<td>
+							<input type="password" class="form-control-sm myinfo-password"  th:placeholder="#{M_lbl_NewPwd}" value="" id="myinfo_newPassword"/>  <!--myinfo-password  -->
+							<span class="txt" th:text="#{M_info.password.msg}">8자 이상, 영문 대소문자, 숫자, 특수문자 조합</span>
+						</td>
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_CofNewPwd}">신규 비밀번호 확인</th>
+						<td><input type="password" class="form-control-sm myinfo-password"  th:placeholder="#{M_lbl_CofNewPwd}" value="" id="myinfo_confirm_newPassword"/></td> <!--myinfo-password  -->
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_TelNo}">전화번호</th>
+						<td><input type="text" class="form-control-sm"  th:placeholder="#{M_lbl_TelNo}" id="myinfo_telNo" value=""/></td>
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_HppNo}">휴대폰번호</th>
+						<td><input type="text" class="form-control-sm" th:placeholder="#{M_lbl_HppNo}" id="myinfo_phoneNo" value=""/></td>
+					</tr>
+					<tr>
+						<th th:text="#{M_lbl_Team}">부서</th>
+						<td><span id="myinfo_division"></span></td>
+					</tr>
+					<tr>
+						<th>Time Zone5</th>
+						<td>
+							<div class="form-group row">
+								<input type="hidden" id="myinfo_tzSelect"/>
+								<div style="width: 40%;">
+									<select id="myinfo_tzSelect1" class="form-control-sm"></select>
+								</div>
+								<div style="width: 60%;">
+									<select id="myinfo_tzSelect2" class="form-control-sm" required>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<label for="myinfo_codeLanguage" class="" style="display: none" th:text="#{M_lbl_language}">언어설정</label>
+						<th th:text="#{M_lbl_language}">언어설정</th>
+						<td>
+							<select id="myinfo_codeLanguage" class="form-control-sm" required>
+								<option value="">언어 선택</option>
+							</select>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group btn-block">
+					<button type="button" class="btn btn-grey" data-dismiss="modal" th:text="#{M_btn_Cancel}">취소</button>
+					<button id="btnUpdateMyInfo" type="button" class="btn btn-primary" th:text="#{M_btn_Save}">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--<div th:fragment="modal" class="modal-content-wrap">
+	<div class="modal fade" id="myinfoModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="myinfoModal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-normal">
+			<div class="modal-content">
+				<button type="button" class="btn btn-close-black-sm" data-dismiss="modal" aria-label="Close"></button>
+				<div class="modal-body">
+					<div class="cont-group">
+						<div class="col-100">
+							<table class="table table-form table-myinfo-update" data-parsley-validate>
+								<colgroup>
+									<col width="150" />
+									<col width="*" />
+								</colgroup>
+								<tbody>
+									<input type="hidden" id="myinfo_memberKey" />
+									<tr>
+										<th th:text="#{modal.myInfo.photo}">사진</th>
+										<td>
+											<div class="photo" id="myinfo_photo"></div>
+											<form enctype="multipart/form-data" action="" class="photo-upload" id="myinfo_photoFileForm" method="post">
+												<label for="myinfo_photoFile">
+													<input type="file" id="myinfo_photoFile" class="filestyle" data-buttonBefore="true"
+														th:attr="data-text=#{modal.myInfo.selectFile}" name="file" multiple="false"
+														accept="application/pdf,image/*">
+												</label>
+											</form>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.number}">사번</th>
+										<td><span id="myinfo_employeeNo"></span></td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.name}">이름</th>
+										<td><span id="myinfo_memberName"></span></td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.currentPassword}">현재 패스워드</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-75">
+													<input type="password" class="form-control not-kr myinfo-password"
+														th:placeholder="#{modal.myInfo.currentPasswordInput}" value="" id="myinfo_oriPassword"
+														data-parsley-password-minlength="6" />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.newPassword}">신규 패스워드</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-75">
+													<input type="password" class="form-control not-kr myinfo-password"
+														th:placeholder="#{modal.myInfo.newPasswordInput}" value="" id="myinfo_newPassword"
+														data-parsley-password-minlength="6" data-parsley-notequal-password="#myinfo_oriPassword" />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.newPasswordConfirm}">신규 패스워드 확인</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-75">
+													<input type="password" class="form-control not-kr myinfo-password"
+														th:placeholder="#{modal.myInfo.newPasswordConfirmInput}" value="" id="myinfo_confirm_newPassword"
+														data-parsley-password-minlength="6" data-parsley-confirm-password="#myinfo_newPassword" />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.telephone}">전화번호</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-75">
+													<input type="text" class="form-control" th:placeholder="#{modal.myInfo.telephoneInput}" id="myinfo_telNo"
+														value="" />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.cellphone}">핸드폰번호</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-75">
+													<input type="text" class="form-control" th:placeholder="#{modal.myInfo.cellphoneInput}" id="myinfo_phoneNo"
+														value="" required />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.email}">이메일</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-75">
+													<input type="email" class="form-control" th:placeholder="#{modal.myInfo.emailInput}" id="myinfo_email"
+														value="" maxlength="50" required />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.department}">부서</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-75">
+													<input type="text" class="form-control" th:placeholder="#{modal.myInfo.departmentInput}"
+														id="myinfo_division" value="" maxlength="50" />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th th:text="#{modal.myInfo.languageConfig}">언어설정</th>
+										<td>
+											<div class="form-row">
+												<div class="col col-50">
+													<select class="form-control" id="myinfo_codeLanguage" value="" required>
+														<option value="" th:text="#{modal.myInfo.languageSelection}">언어 선택</option>
+													</select>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-group">
+						<button type="button" class="btn btn-grey btn-lg" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+						<button type="button" class="btn btn-primary btn-lg" id="btnUpdateMyInfo" th:text="#{modal.save}">저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+	<th:block layout:fragment="page_level_modal"></th:block>
+
+	<modal class="modal fade" id="newsModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+			<div id="modal-news-content" class="modal-content">
+				<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+				<div class="modal-header">
+					<h2 class="tit-multi">
+						<span id='modal-news-title' data-toggle="tooltip" data-html="true"></span>
+					</h2>
+					<div class="article-info">
+						<span id="modal-news-source" class="source">한국경제</span>
+						<span class="dvider"></span>
+						<span id='modal-news-datetime' class="date_time">2021.05.11 11:10</span>
+						<span class="dvider"></span>
+						<a id="modal-news-source-link" href="#" class="source dark" target="_blank" th:text="#{modal.detail.sourceLink}">원본링크</a>
+						<span id="modal-news-id" hidden></span>
+						<span id="modal-news-source-link-delete">삭제</span>
+					</div>
+					<div class="btn-group article-btn">
+						<button type="button" class="btn btn-filter" data-toggle="modal" data-target="#feedModal">
+							<span class="sr-only">피드백</span>
+							<input class="qty" name="qty" readonly="readonly" type="text" value="0">
+						</button>
+						<button type="button" class="btn btn-recommend">
+							<span class="sr-only">추천</span>
+							<input class="qty" name="qty" readonly="readonly" type="text" value="0" />
+						</button>
+						<button type="button" class="btn btn-clipping" data-toggle="modal" data-target="#clippingTagModal">
+							<span class="sr-only">클리핑</span>
+						</button>
+						<button type="button" class="btn btn-share" data-toggle="modal" data-target="#shareModal">
+							<span class="sr-only">공유</span>
+							<input class="qty" name="qty" readonly="readonly" type="text" value="0">
+						</button>
+						<button type="button" class="btn btn-get" data-toggle="modal" data-target="#leadModal">
+							<span class="sr-only">리드</span>
+						</button>
+					</div>
+				</div>
+				<div id='modal-news-body' class="modal-body">
+					<div class="col">
+						<div class="article-text"></div>
+						<div class="attached">
+							<!-- <strong>첨부파일</strong>
+							<div class="files">
+								<a href="#" class="xls-f">xls 파일</a>,
+								<a href="#" class="pdf-f">pdf 파일</a>,
+								<a href="#" class="ppt-f">ppt 파일</a>,
+								<a href="#" class="doc-f">doc 파일</a>,
+								<a href="#" class="hwp-f">hwp 파일</a>,
+								<a href="#" class="txt-f">txt 파일</a>,
+								<a href="#" class="img-f">이미지 파일</a>,
+								<a href="#" class="zip-f">zip 파일</a>,
+								<a href="#" class="etc-f">기타 파일</a>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</modal>
+
+	<modal class="modal fade" id="orderModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="orderModal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<button type="button" class="btn btn-close-black" data-dismiss="modal" aria-label="Close"></button>
+				<div class="modal-header">
+					<h2 id="modal-bidding-title" class="title"></h2>
+					<div class="article-info">
+						<span id="modal-bidding-source" class="source"></span>
+						<span class="dvider"></span>
+						<span id="modal-bidding-type" class="source"></span>
+						<span class="dvider"></span>
+						<span id="modal-bidding-datetime" class="date_time"></span>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="cont-group">
+						<div class="col-100">
+							<table class="table table-data">
+								<colgroup>
+									<col width="20%" />
+									<col width="30%" />
+									<col width="20%" />
+									<col width="30%" />
+								</colgroup>
+								<tbody id="modal-bidding-table">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</modal>
+
+	<modal class="modal fade" id="aboutModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="newsModal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div id="about-modal-content" class="modal-content">
+				<button type="button" class="btn btn-close-black" data-dismiss="modal" aria-label="Close"></button>
+				<div class="modal-header">
+					<h2 class="title"><span id="about-modal-title" class="mulit-line-ellipsis" data-toggle="tooltip" data-html="true"
+							th:text="#{modal.about.title}">Xtrm-Sales Release History</span></h2>
+				</div>
+				<div id="about-modal-body" class="modal-body">
+					<div class="cont-group">
+						<div class="col-100">
+							<div id="about-modal-text" class="text">
+								<ul></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</modal>
+
+
+<modal class="modal fade" id="cancelAndConfirmModal" tabindex="-1" aria-labelledby="cancelAndConfirmModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-xm">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-xs" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<p><span class="warning-txt" th:text="#{modal.lead.ask}">해당 정보에 대한 리드를 하시겠습니까?</span></p>
+				<p class="warning-context" th:text="#{modal.lead.warning}">선택된 정보는 취소/삭제가 불가합니다.</p>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-grey btn-no-lead" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button type="button" class="btn btn-primary btn-yes-lead" data-dismiss="modal" th:text="#{modal.ok}">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-xm">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-xs" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<p><span class="warning-txt">이미 등록된 리드 데이터는 이후 등록 취소가 불가능합니다.</span></p>
+				<p></p>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary btn-yes-lead" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="cancelAndConfirmModalByModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div class="msg">
+					<p class="text-left"><span class="warning-txt" th:text="#{modal.lead.ask}">해당 정보에 대한 리드를 하시겠습니까?</span></p>
+					<p class="text-left mb-0 pl-20">
+						<span class="f-s-15 f-c-black warning-context" th:text="#{modal.lead.warning}">선택된 정보는 취소/삭제가 불가합니다.</span>
+					</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group btn-block">
+					<button type="button" class="btn btn-grey" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button type="button" class="btn btn-primary btn-yes-lead" data-dismiss="modal" th:text="#{modal.ok}">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="confirmModalByModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div class="msg">
+					<p class="text-left"><span class="warning-txt">이미 등록된 리드 데이터는 이후 등록 취소가 불가능합니다.</span></p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group btn-block">
+					<button type="button" class="btn btn-primary btn-yes-lead" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="dislikeConfirmModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div class="msg">
+					<p class="text-left mb-0"><span class="warning-txt" th:utext="#{modal.myDislike.warning}">이미 등록된 삭제 피드백은 취소할 수 없습니다.</span></p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group btn-block">
+					<button type="button" class="btn btn-primary btn-yes-lead" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="dislikeCancelAndConfirmModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div class="msg">
+					<p class="text-left"><span class="warning-txt" th:utext="#{modal.myDislike.ask}">삭제 피드백을 제공하시겠습니까?</span></p>
+					<p class="text-left mb-0 pl-20">
+						<span class="f-s-15 f-c-black" th:utext="#{modal.myDislike.check}">피드백이 일정 횟수 이상이면, 해당 기사가 목록에서 삭제됩니다. 이 작업은 취소할 수 없습니다.</span>
+					</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group btn-block">
+					<button type="button" class="btn btn-grey" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button type="button" class="btn btn-primary btn-yes-filter" data-dismiss="modal" th:text="#{modal.ok}">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="myKeywordModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="myKeywordModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-normal">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-sm" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header pb-0 brb-none">
+				<h3 class="title mb-0" th:text="#{modal.myKeyword.registration}">나의 키워드 등록</h3>
+			</div>
+			<div class="modal-body pt-0">
+				<div class="cont-group">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="100" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th th:text="#{modal.type}">분류</th>
+									<td>
+										<div class="form-row">
+											<div class="col">
+												<div class="radiobtn">
+													<input id="newsR" name="category" type="radio" checked>
+													<label for="newsR" th:text="#{common.news}">뉴스</label>
+												</div>
+												<div class="radiobtn">
+													<input id="customerR" name="category" type="radio">
+													<label for="customerR" th:text="#{common.customer}">고객사</label>
+												</div>
+												<div class="radiobtn">
+													<input id="competitorR" name="category" type="radio">
+													<label for="competitorR" th:text="#{common.competitor}">경쟁사</label>
+												</div>
+												<div class="radiobtn">
+													<input id="biddingR" name="category" type="radio">
+													<label for="biddingR" th:text="#{common.bidding}">입찰정보</label>
+												</div>
+												<div class="radiobtn">
+													<input id="clientR" name="category" type="radio">
+													<label for="clientR" th:text="#{common.client}">고객</label>
+												</div>
+												<div class="radiobtn">
+													<input id="allR" name="category" type="radio">
+													<label for="allR" th:text="#{common.keyword}">키워드</label>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top" th:text="#{common.keyword}">키워드</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-100">
+												<select multiple data-role="tagsinput" th:placeholder="#{search.inputKeywords}"></select>
+											</div>
+										</div>
+										<span class="info-txt m-5" th:text="#{modal.myKeyword.infoMessage}">두개 이상의 키워드 입력 시 엔터 또는 쉼표로 구분해주세요.</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-grey btn-lg" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button id="keywords-save-btn" type="button" class="btn btn-primary btn-lg" data-dismiss="modal" th:text="#{modal.save}">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="myProductRegionModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="myProductRegionModal"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-normal">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-sm" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header pb-0 brb-none">
+				<h3 class="title mb-0" th:text="#{modal.myPuRegion.setting}">나의 PU 및 지역 설정</h3>
+			</div>
+			<div class="modal-body pt-0">
+				<div class="cont-group">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="100" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th th:text="#{modal.myPuRegion.pu}">나의 PU</th>
+									<td>
+										<div class="form-row">
+											<div class="col">
+												<div class="radiobtn">
+													<input id="allPuR" name="product" type="radio" value="ALL">
+													<label for="allPuR" th:text="#{common.all}">전체</label>
+												</div>
+												<div class="radiobtn">
+													<input id="powerR" name="product" type="radio" value="POWER">
+													<label for="powerR" th:text="#{common.power}">전력</label>
+												</div>
+												<div class="radiobtn">
+													<input id="industrialR" name="product" type="radio" value="INDUSTRIAL">
+													<label for="industrialR" th:text="#{common.industrial}">기전</label>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th th:text="#{modal.myPuRegion.region}">나의 지역</th>
+									<td>
+										<div class="form-row">
+											<div class="col">
+												<div class="radiobtn">
+													<input id="allRegionR" name="region" type="radio" value="ALL">
+													<label for="allRegionR" th:text="#{common.all}">전체</label>
+												</div>
+												<div class="radiobtn">
+													<input id="domesticR" name="region" type="radio" value="DOMESTIC">
+													<label for="domesticR" th:text="#{common.domestic}">국내</label>
+												</div>
+												<div class="radiobtn">
+													<input id="overseasR" name="region" type="radio" value="OVERSEA">
+													<label for="overseasR" th:text="#{common.overseas}">해외</label>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-grey btn-lg" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button id="myprouctregion-save-btn" type="button" class="btn btn-primary btn-lg" data-dismiss="modal" th:text="#{modal.save}">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="myAnalysisModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="myAnalysisModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-normal">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-sm" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header pb-0 brb-none">
+				<h3 class="title mb-0" th:text="#{modal.mySite.registration}">나의 분석 사이트 등록</h3>
+			</div>
+			<div class="modal-body pt-0">
+				<div class="cont-group">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="130" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th th:text="#{modal.type}">분류</th>
+									<td>
+										<div class="form-row">
+											<div class="col">
+												<div class="radiobtn">
+													<input id="mycompanyS" name="category-myanalysis" type="radio" checked>
+													<label for="mycompanyS" th:text="#{common.myCompany}">나의 회사</label>
+												</div>
+												<div class="radiobtn">
+													<input id="competitorS" name="category-myanalysis" type="radio">
+													<label for="competitorS" th:text="#{common.competitor}">경쟁사</label>
+												</div>
+												<div class="radiobtn">
+													<input id="customerS" name="category-myanalysis" type="radio">
+													<label for="customerS" th:text="#{common.customer}">고객사</label>
+												</div>
+												<div class="radiobtn">
+													<input id="interestS" name="category-myanalysis" type="radio">
+													<label for="interestS" th:text="#{myAnalysis.myInterest}">관심 사이트</label>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top" th:text="#{modal.mySite.searchSite}">수집 사이트 검색</th>
+									<td id='myAnalysis-search-td'>
+										<div class="form-row">
+											<div class="col col-80">
+												<input type="search" class="form-control" th:placeholder="#{modal.mySite.inputCompanyName}">
+											</div>
+											<button id='myAnalysis-search-btn' type="button" class="btn btn-brd-black" th:text="#{common.search}"> 검색</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top" th:text="#{modal.mySite}">나의 수집 사이트</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-100">
+												<div class="my-site">
+													<select multiple data-role="tagsinput" placeholder="수집 사이트" id="myAnalysis-tagsinput">
+													</select>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-grey btn-lg" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button id="myanalysis-save-btn" type="button" class="btn btn-primary btn-lg" th:text="#{modal.save}">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="newsTotalModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-mid">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div id="newsTotalChart" style="height: 320px;"></div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="clientsTotalModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-mid">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div id="clientsTotalChart" style="height: 320px;"></div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="competitorTotalModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-mid">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div id="competitorTotalChart" style="height: 320px;"></div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="vocTotalModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-mid">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div id="vocTotalChart" style="height: 320px;"></div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="biddingTotalModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-mid">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<div id="biddingTotalChart" style="height: 320px;"></div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="setModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="setModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-xm">
+		<div class="modal-content shadow-lg">
+			<button type="button" class="btn btn-close-black-xs" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-body">
+				<p class="mb-0 font-size-15 pt-5">나의 분석을 설정하시겠습니까?</p>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button id="setmodal-cancel-btn" type="button" class="btn btn-grey" data-dismiss="modal">아니오</button>
+					<button type="button" class="btn btn-primary" id="btnSetYes" data-dismiss="modal" data-toggle="modal" data-target="#wizardModal">예</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="wizardModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="wizardModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-normal">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-sm" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header pb-0 brb-none">
+				<h3 class="title mb-0 js-title-step"></h3>
+			</div>
+			<div class="modal-body pt-0">
+				<div class="cont-group hide" data-step="1" data-title="나의 회사 선택">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="130" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th class="vertical-top">회사 검색</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-80">
+												<input type="search" class="form-control" placeholder="회사명 입력">
+											</div>
+											<button type="button" class="btn btn-brd-black">검색</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top">나의 회사</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-100">
+												<div class="my-site">
+													<select multiple data-role="tagsinput" placeholder="나의 회사" id="wizard-mycompany-tagsinput"></select>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="cont-group hide" data-step="2" data-title="나의 고객사 선택">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="130" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th class="vertical-top">회사 검색</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-80">
+												<input type="search" class="form-control" placeholder="회사명 입력">
+											</div>
+											<button type="button" class="btn btn-brd-black">검색</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top">나의 고객사</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-100">
+												<div class="my-site">
+													<select multiple data-role="tagsinput" placeholder="나의 고객사" id="wizard-customer-tagsinput"></select>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="cont-group hide" data-step="3" data-title="나의 경쟁사 선택">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="130" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th class="vertical-top">회사 검색</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-80">
+												<input type="search" class="form-control" placeholder="회사명 입력">
+											</div>
+											<button type="button" class="btn btn-brd-black">검색</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top">나의 경쟁사</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-100">
+												<div class="my-site">
+													<select multiple data-role="tagsinput" placeholder="나의 경쟁사" id="wizard-competitor-tagsinput"></select>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="cont-group hide" data-step="4" data-title="관심 사이트 선택">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="130" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th class="vertical-top">사이트 검색</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-80">
+												<input type="search" class="form-control" placeholder="회사명 입력">
+											</div>
+											<button type="button" class="btn btn-brd-black">검색</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top">관심 사이트</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-100">
+												<div class="my-site">
+													<select multiple data-role="tagsinput" placeholder="관심 사이트" id="wizard-mysite-tagsinput"></select>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="cont-group hide" data-step="5" data-title="나의 PU 선택">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="100" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th class="vertical-top">나의 PU</th>
+									<td>
+										<div class="form-row">
+											<div class="col">
+												<div class="radiobtn">
+													<input id="wizardAllPuR" name="product" type="radio" value="ALL" checked>
+													<label for="wizardAllPuR">전체</label>
+												</div>
+												<div class="radiobtn">
+													<input id="wizardPowerR" name="product" type="radio" value="POWER">
+													<label for="wizardPowerR">전력</label>
+												</div>
+												<div class="radiobtn">
+													<input id="wizardIndustrialR" name="product" type="radio" value="INDUSTRIAL">
+													<label for="wizardIndustrialR">기전</label>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="cont-group hide" data-step="6" data-title="나의 지역 선택">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="100" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th class="vertical-top">나의 지역</th>
+									<td>
+										<div class="form-row">
+											<div class="col">
+												<div class="radiobtn">
+													<input id="wizardAllRegionR" name="region" type="radio" value="ALL" checked>
+													<label for="wizardAllRegionR">전체</label>
+												</div>
+												<div class="radiobtn">
+													<input id="wizardDomesticR" name="region" type="radio" value="DOMESTIC">
+													<label for="wizardDomesticR">국내</label>
+												</div>
+												<div class="radiobtn">
+													<input id="wizardOverseasR" name="region" type="radio" value="OVERSEA">
+													<label for="wizardOverseasR">해외</label>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-grey btn-lg js-btn-step" data-orientation="previous">이전</button>
+					<button type="button" class="btn btn-primary btn-lg js-btn-step" data-orientation="next">다음</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="shareModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-basic">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header">
+				<h3 class="tit">사용자 공유</h3>
+			</div>
+			<div class="modal-body">
+				<table class="table table-data2">
+					<colgroup>
+						<col width="25%" />
+						<col width="75%" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th class="vertical-top" th:text="#{modal.sharing.target}">공유 대상 검색</th>
+							<td>
+								<div class="form-row">
+									<div class="col col-80">
+										<input type="search" class="form-control-sm" id="shareSearchGroup" th:placeholder="#{modal.sharing.inputSharingTarget}">
+									</div>
+									<button type="button" class="btn btn-brd-black" th:text="#{common.search}">검색</button>
+								</div>
+								<ul class="site-search-list user-group-list scroll">
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th class="vertical-top">공유 대상</th>
+							<td>
+								<div class="form-row">
+									<div class="col col-100">
+										<div class="my-site">
+											<select multiple data-role="tagsinput" th:placeholder="#{modal.sharing.target}" id="share-modal-tagsinput">
+											</select>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="vertical-top">공유 글</th>
+							<td>
+								<div class="form-row">
+									<div class="col col-100">
+										<textarea class="form-control-sm" rows="3" id="share-message"
+											th:placeholder="#{modal.sharing.placeholder.message}"></textarea>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group btn-block">
+					<button type="button" class="btn btn-grey" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button id="share-modal-save-btn" type="button" class="btn btn-primary" th:text="#{modal.save}">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="clippingTagModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-basic">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-lg" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header">
+				<h3 class="tit">나의 클리핑 태그</h3>
+			</div>
+			<div class="modal-body">
+				<table class="table table-data2">
+					<colgroup>
+						<col width="25%" />
+						<col width="75%" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th class="vertical-top">클리핑 태그 선택</th>
+							<td>
+								<div class="form-row">
+									<div class="col col-80">
+										<input type="search" class="form-control-sm" id="clippingSearchGroup" placeholder="태그 입력">
+									</div>
+									<button type="button" class="btn btn-brd-black" id="clipping-search-button">검색</button>
+								</div>
+								<ul class="clipping-group-list scroll">
+									<li><span>클리핑1</span><button type="button" class="btn btn-xs btn-brd-bg-grey">등록</button></li>
+									<li><span>클리핑2</span><button type="button" class="btn btn-xs btn-brd-bg-grey">등록</button></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th class="vertical-top">나의 클리핑 태그</th>
+							<td>
+								<div class="form-row">
+									<div class="col col-100">
+										<select multiple data-role="tagsinput" placeholder="태그 입력" id="clipping-tag-modal-tagsinput"></select>
+									</div>
+								</div>
+								<span class="info-txt mt-5">두개 이상의 태그 입력 시 엔터 또는 쉼표로 구분해주세요.</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group btn-block">
+					<button type="button" class="btn btn-grey" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" id="clipping-tag-modal-save-btn">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="myShareGroupModal" tabindex="-1" data-keyboard="false" data-backdrop="static" aria-labelledby="myShareGroupModal"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-normal">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-sm" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header pb-0 brb-none">
+				<h3 class="title mb-0" th:text="#{modal.myGroup.registration}">공유 사용자 그룹 관리</h3>
+			</div>
+			<div class="modal-body pt-0">
+				<div class="cont-group">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="130" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th th:text="#{modal.myGroup.groupList}">사용자 그룹 선택</th>
+									<td name="userGroup">
+										<div class="form-row">
+											<div class="col col-80">
+												<select class="form-control" id="myShareGroup" value="" required>
+												</select>
+											</div>
+											<button type="button" class="btn btn-brd-black" th:text="#{modal.myGroup.groupSetting}" data-toggle="modal"
+												data-target="#myShareGroupSettingModal">그룹편집</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top" th:text="#{modal.myGroup.search}">사용자 검색</th>
+									<td name="userSearch">
+										<div class="form-row">
+											<div class="col col-80">
+												<input type="search" class="form-control" th:placeholder="#{modal.myGroup.inputGroupMember}">
+											</div>
+											<button type="button" class="btn btn-brd-black" th:text="#{common.search}">검색</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top" th:text="#{modal.myGroup.list}">사용자 목록</th>
+									<td>
+										<div class="form-row">
+											<div class="col col-100">
+												<div class="my-site">
+													<select multiple data-role="tagsinput" th:placeholder="#{modal.sharing.target}" id="group-modal-tagsinput">
+													</select>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-grey btn-lg" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button id="group-modal-save-btn" type="button" class="btn btn-primary btn-lg" th:text="#{modal.save}">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+
+<modal class="modal fade" id="myShareGroupSettingModal" tabindex="-1" data-keyboard="false" style="z-index: 1051" data-backdrop="static"
+	aria-labelledby="myShareGroupSettingModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-normal">
+		<div class="modal-content">
+			<button type="button" class="btn btn-close-black-sm" data-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header pb-0 brb-none">
+				<h3 class="title mb-0" th:text="#{modal.myGroup.groupSetting}">공유 사용자 그룹 편집</h3>
+			</div>
+			<div class="modal-body pt-0">
+				<div class="cont-group">
+					<div class="col-100">
+						<table class="table table-form">
+							<colgroup>
+								<col width="130" />
+								<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th th:text="#{modal.myGroup.groupList}">사용자 그룹 선택</th>
+									<td name="userGroup">
+										<div class="form-row">
+											<div class="col col-80">
+												<select class="form-control" id="myShareGroupSetting" value="" required>
+													<option value="" th:text="#{modal.myGroup.new}">신규 그룹 생성</option>
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="vertical-top" th:text="#{modal.myGroup.editName}">그룹명 설정</th>
+									<td name="userSearch">
+										<div class="form-row">
+											<div class="col col-80">
+												<input type="text" class="form-control" th:placeholder="#{modal.myGroup.editNameInput}" id="groupName" value="">
+											</div>
+											<button type="button" class="btn btn-brd-black" th:text="#{modal.myGroup.delete}"
+												id="group-setting-modal-delete-btn">삭제</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-grey btn-lg" data-dismiss="modal" th:text="#{modal.cancel}">취소</button>
+					<button id="group-setting-modal-save-btn" type="button" class="btn btn-primary btn-lg" th:text="#{modal.save}">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</modal>
+</th:block>
+</html>

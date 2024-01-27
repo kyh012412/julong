@@ -1,0 +1,262 @@
+<!doctype html>
+<html layout:decorate="~{layout/base}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block layout:fragment="page_level_css">
+    <link href="/css/collecting/style.css" rel="stylesheet"/>
+</th:block>
+
+
+
+<div layout:fragment="content">
+
+    <section class="section search">
+        <div class="collapse" id="collapseSearch">
+            <div class="cont-group brb-line ptb-25">
+                <div class="form-row">
+                    <div class="col col-15">
+                        <input type="text" placeholder="기간 조회(시작일)" class="form-control date" id="startDate" readonly>
+                    </div>
+                    <div class="col col-15">
+                        <input type="text" placeholder="기간 조회(종료일)" class="form-control date" data-toggle="datepicker" id="endDate" readonly>
+                    </div>
+
+                    <div class="col">
+                        <input id="search-input" autocomplete="off" type="search" class="form-control" th:placeholder="#{search.inputKeywords}">
+                    </div>
+                    <button id="search-btn" type="button" class="btn btn-search"><span class="sr-only">검색</span></button>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-search-toggle" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
+            <span class="sr-only">열기/닫기</span>
+        </button>
+    </section>
+
+    <section class="section full">
+        <div class="cont-group scrollspy" id="navScrollspy">
+            <div class="nav nav-tabs">
+                <a href="#mainNews" class="nav-link" data-target="#mainNews" th:text="#{common.news}">뉴스</a>
+                <a href="#mainClient" class="nav-link" data-target="#mainClient" th:text="#{common.customer}">고객사</a>
+                <a href="#mainCompetitor" class="nav-link" data-target="#mainCompetitor" th:text="#{common.competitor}">경쟁사</a>
+                <a href="#mainVoc" class="nav-link" data-target="#mainVoc" th:text="#{common.voc}">VOC</a>
+                <a href="#mainBidding" class="nav-link" data-target="#mainBidding" th:text="#{common.bidding}">입찰정보</a>
+            </div>
+            <span id='sync-datetime' class="noti"></span>
+        </div>
+
+        <div class="cont-group brb-line" id="mainNews">
+            <div class="col-100">
+                <h3 class="title">
+                    <span th:text="#{common.news}">뉴스</span>
+                    <a href="javascript:clickMoreLink('/collecting/results', 'news')" class="btn-more" th:text="#{index.more}">+ 더보기</a>
+                    <span class="noti interest" th:text="#{index.myKeywords}">나의 관심 키워드</span>
+                </h3>
+                <div class="spinner" style="display: none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="no-result" style="display: none;">
+                    <p>
+                        <span class="ico-no"></span>
+                        <strong th:text="#{index.noData}">데이터가 존재하지 않습니다.</strong>
+                    </p>
+                </div>
+                <div id="carouselNewsIndicator" class="carousel slide" data-ride="carousel" data-touch="true" data-interval="false">
+                </div>
+            </div>
+        </div>
+
+        <div class="cont-group brb-line" id="mainClient">
+            <div class="col-100">
+                <h3 class="title">
+                    <span th:text="#{common.customer}">고객사</span>
+                    <a href="javascript:clickMoreLink('/collecting/results', 'customer')" class="btn-more" th:text="#{index.more}">+ 더보기</a>
+                </h3>
+                <div class="spinner" style="display: none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="no-result" style="display: none;">
+                    <p>
+                        <span class="ico-no"></span>
+                        <strong th:text="#{index.noData}">데이터가 존재하지 않습니다.</strong>
+                    </p>
+                </div>
+                <div id="carouselCustomerIndicator" class="carousel slide" data-ride="carousel" data-touch="true" data-interval="false">
+                </div>
+            </div>
+        </div>
+
+        <div class="cont-group brb-line" id="mainCompetitor">
+            <div class="col-100">
+                <h3 class="title">
+                    <span th:text="#{common.competitor}">경쟁사</span>
+                    <a href="javascript:clickMoreLink('/collecting/results', 'competitor')" class="btn-more" th:text="#{index.more}">+ 더보기</a>
+                </h3>
+                <div class="spinner" style="display: none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="no-result" style="display: none;">
+                    <p>
+                        <span class="ico-no"></span>
+                        <strong th:text="#{index.noData}">데이터가 존재하지 않습니다.</strong>
+                    </p>
+                </div>
+                <div id="carouselCompetitorIndicator" class="carousel slide" data-ride="carousel" data-touch="true" data-interval="false">
+                </div>
+            </div>
+        </div>
+
+        <div class="cont-group brb-line" id="mainVoc">
+            <div class="col-100">
+                <h3 class="title">
+                    <span th:text="#{common.voc}">VOC정보</span>
+                    <a href="javascript:clickMoreLink('/collecting/results', 'voc')" class="btn-more" th:text="#{index.more}">+ 더보기</a>
+                </h3>
+                <div class="spinner" style="display: none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="no-result" style="display: none;">
+                    <p>
+                        <span class="ico-no"></span>
+                        <strong th:text="#{index.noData}">데이터가 존재하지 않습니다.</strong>
+                    </p>
+                </div>
+                <div id="carouselVocIndicator" class="carousel slide" data-ride="carousel" data-touch="true" data-interval="false">
+                </div>
+            </div>
+        </div>
+
+        <div class="cont-group brb-line" id="mainBidding">
+            <div class="col-100">
+                <h3 class="title">
+                    <span th:text="#{common.bidding}">입찰정보</span>
+                    <a href="javascript:clickMoreLink('/collecting/results', 'bidding')" class="btn-more" th:text="#{index.more}">+ 더보기</a>
+                </h3>
+                <div class="spinner" style="display: none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="no-result" style="display: none;">
+                    <p>
+                        <span class="ico-no"></span>
+                        <strong th:text="#{index.noData}">데이터가 존재하지 않습니다.</strong>
+                    </p>
+                </div>
+                <div id="carouselBiddingIndicator" class="carousel slide" data-ride="carousel" data-touch="true" data-interval="false">
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </section>
+
+
+
+</div>
+
+
+
+<th:block layout:fragment="page_level_script">
+    <script defer type="text/javascript" src="/lib/datepicker.js"></script>
+    <script defer type="text/javascript" src="/lib/datepicker.ko-KR.js"></script>
+    <script defer type="text/javascript" src="/lib/moment-2.24.0.min.js"></script>
+    <script defer type="text/javascript" src="/lib/modal-steps.js"></script>
+    <script defer type="text/javascript" src="/lib/tagsinput.js"></script>
+    <script defer type="text/javascript" src="/lib/sweetalert2.min.js"></script>
+    <script defer type="text/javascript" src="/js/index/index.js"></script>
+    <script defer type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        const IS_WIZARD = /*[[${isWizard}]]*/ 'false';
+        /*]]*/
+        let SEARCH_INFO_FOR_INDEX;
+
+        $(function () {
+            $.fn.datepicker.setDefaults({
+                format: 'yyyy-mm-dd',
+                weekStart: 0,
+                autoPick: true,
+                autoHide: true,
+                language: langToLangCountry(LANG)
+            })
+
+            const now = new Date();
+            $('#endDate').datepicker({
+                date: now,
+            });
+            $('#startDate').datepicker({
+                date: now.setDate(now.getDate() - DEFAULT_SEARCH_START_DAY),
+            });
+        });
+
+        const searchBtn = document.getElementById('search-btn');
+        searchBtn.addEventListener('click', function () {
+            const startDate = $('#startDate').datepicker('getDate', true);
+            const endDate = $('#endDate').datepicker('getDate', true);
+            const keywords = document.getElementById('search-input').value;
+
+            const syncDateTimeEl = document.getElementById('sync-datetime');
+            syncDateTimeEl.dataset.syncDatetime = moment().format();
+
+            const searchInfo = new SearchInfo();
+            searchInfo.searchStartDate = startDate;
+            searchInfo.searchEndDate = endDate;
+            searchInfo.searchKeywords = keywords;
+            searchInfo.searchSize = 100;
+            searchInfo.pageNavItemCountPerPage = 6;
+
+            SEARCH_INFO_FOR_INDEX = searchInfo;
+            KEYWORD_LIST_FOR_MODAL = searchInfo.searchKeywordList;
+
+            searchAndUpdateContext(QUERY_TYPE_NEWS, searchInfo);
+            searchAndUpdateContext(QUERY_TYPE_CUSTOMER, searchInfo);
+            searchAndUpdateContext(QUERY_TYPE_COMPETITOR, searchInfo);
+            searchAndUpdateContext(QUERY_TYPE_BIDDING, searchInfo);
+            searchAndUpdateContext(QUERY_TYPE_VOC, searchInfo);
+        });
+
+        $(window).scroll(function () {
+            var scrollDistance = $(window).scrollTop();
+            $('#mainNews, #mainClient, #mainCompetitor, #mainVoc, #mainBidding').each(function (i) {
+                if ($(this).position().top - 161 <= scrollDistance) {
+                    $('#navScrollspy a.active').removeClass('active');
+                    $('#navScrollspy a').eq(i).addClass('active');
+                }
+            });
+        }).scroll();
+
+        $(document).ready(function () {
+            document.getElementById('search-btn').click();
+
+            $('#search-input').keypress(function(e){
+                if (e.keyCode==13) {
+                    document.getElementById('search-btn').click();
+                }
+            });
+
+            if ([[${#authorization.expression("hasRole('ROLE_USER')")}]] && IS_WIZARD) {
+                $('#setModal').modal('show');
+                $('#wizardModal').modalSteps({
+                    completeCallback: completeWizardCallback
+                })
+            }
+
+            startInterval(function () {
+                moment.locale(LANG);
+                const el = document.getElementById('sync-datetime');
+                el.innerText = moment(el.dataset.syncDatetime).fromNow();
+            }, 10 * 1000);
+        });
+    </script>
+</th:block>
+</html>
